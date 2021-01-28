@@ -39,6 +39,7 @@ const App = () => {
       random {
         author
         quote
+        submittedBy
       }
     }
   `;
@@ -50,6 +51,7 @@ const App = () => {
   interface Quote {
     author: string;
     quote: string;
+    submittedBy: string;
   }
 
   interface RandomQuote {
@@ -110,11 +112,12 @@ const App = () => {
                 <h2>{data.random.quote}</h2>
                 <p>&#10077;</p>
                 <p>{data.random.author}</p>
+                <p>{`Submitted by user ${data.random.submittedBy}`}</p>
               </>
             )}
           </>
         )}
-        {viewState === "add" && <Form />}
+        <Form />
       </Container>
     </>
   );

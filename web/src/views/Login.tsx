@@ -7,7 +7,15 @@ export const Login = () => {
     event.preventDefault();
     try {
       const user = await Auth.signIn(formState.username, formState.password);
-      console.log(user)
+      console.log(user);
+      sessionStorage.setItem(
+        "access_token",
+        user.signInUserSession.accessToken.jwtToken
+      );
+      localStorage.setItem(
+        "refresh_token",
+        user.signInUserSession.refreshToken.token
+      );
     } catch (error) {
       console.log("error signing in", error);
     }
@@ -17,7 +25,6 @@ export const Login = () => {
     username: "",
     password: "",
   });
-  
 
   return (
     <div>
@@ -38,6 +45,7 @@ export const Login = () => {
             onChange={(event) =>
               setFormState({ ...formState, password: event.target.value })
             }
+            type="password"
           />
         </label>
         <StyledButton type="submit">Add</StyledButton>
