@@ -12,7 +12,7 @@ const StyledInput = styled.input`
   margin-bottom: 14px;
 `;
 
-const StyledLabel = styled.label`
+export const StyledLabel = styled.label`
   display: flex;
   flex-direction: column;
   text-transform: uppercase;

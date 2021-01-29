@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { gql, useLazyQuery } from "@apollo/client";
-import styled from "styled-components";
+import React from "react";
 import Amplify from "aws-amplify";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Login } from "./views/Login";
@@ -19,15 +17,6 @@ const awsConfig = {
 
 Amplify.configure(awsConfig);
 
-export const StyledButton = styled.button`
-  border: none;
-  font-size: 16px;
-  padding: 8px 25px;
-  color: #635555;
-  margin-right: 10px;
-}
-`;
-
 const App = () => {
   return (
     <Router>
@@ -35,7 +24,7 @@ const App = () => {
         <Route path="/login">
           <Login />
         </Route>
-        <Route path="/profile">
+        <Route path="/form">
           <Form />
         </Route>
         <Route path="/">

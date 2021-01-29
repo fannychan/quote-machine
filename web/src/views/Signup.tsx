@@ -1,6 +1,6 @@
-import react, { useState } from "react";
+import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-import { StyledButton } from "../App";
+import { StyledButton } from "../components/Button";
 
 export const Signup = () => {
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {

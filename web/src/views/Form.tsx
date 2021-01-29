@@ -1,24 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { gql, useMutation } from "@apollo/client";
-import { StyledButton } from "../App";
-import { InputField } from "../components/InputField";
+import { Button } from "../components/Button";
+import { InputField, StyledLabel } from "../components/InputField";
+import { Header } from "../components/Header";
 interface Quote {
   quote: string;
   author: string;
 }
 
-const Label = styled.label`
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  margin-bottom: 10px;
+const TextArea = styled.textarea`
+  min-height: 200px;
+  margin-top: 6px;
 `;
 
-const TextArea = styled.textarea`
-  width: 100%;
-  min-height: 200px;
-`;
 const ADD_QOUTE = gql`
   mutation AddQoute($author: String!, $quote: String!) {
     addQuote(author: $author, quote: $quote) {
@@ -38,39 +33,44 @@ export const Form = () => {
     quote: "",
   });
   return (
-    <div
-      style={{ marginTop: "10px", display: "flex", justifyContent: "center" }}
-    >
-      <form
-        style={{ display: "flex", flexDirection: "column", width: "350px" }}
-        onSubmit={(e) => {
-          e.preventDefault();
-          addQuote({
-            variables: { quote: formState.quote, author: formState.author },
-          });
-          setForm({ author: "", quote: "" });
-        }}
+    <>
+      <Header />
+      <div
+        style={{ marginTop: "10px", display: "flex", justifyContent: "center" }}
       >
-        <InputField
-          label="Author"
-          value={formState.author}
-          onChange={(event) =>
-            setForm({ ...formState, author: event.target.value })
-          }
-        ></InputField>
-
-        <Label>
-          Quote
-          <TextArea
-            value={formState.quote}
+        <form
+          style={{ display: "flex", flexDirection: "column", width: "350px" }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            addQuote({
+              variables: { quote: formState.quote, author: formState.author },
+            });
+            setForm({ author: "", quote: "" });
+          }}
+        >
+          <InputField
+            label="Author"
+            value={formState.author}
             onChange={(event) =>
-              setForm({ ...formState, quote: event.target.value })
+              setForm({ ...formState, author: event.target.value })
             }
-          />
-        </Label>
-        <StyledButton type="submit">Add</StyledButton>
-        {mutationError && <p>Error :( Please try again</p>}
-      </form>
-    </div>
+          ></InputField>
+
+          <StyledLabel>
+            Quote
+            <TextArea
+              value={formState.quote}
+              onChange={(event) =>
+                setForm({ ...formState, quote: event.target.value })
+              }
+            />
+          </StyledLabel>
+          <Button style={{ marginTop: "15px" }} type="submit">
+            Add
+          </Button>
+          {mutationError && <p>Error :( Please try again</p>}
+        </form>
+      </div>
+    </>
   );
 };

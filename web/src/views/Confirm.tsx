@@ -1,5 +1,5 @@
 import { Auth } from "aws-amplify";
-import { StyledButton } from "../App";
+import { StyledButton } from "../components/Button";
 import { useState } from "react";
 
 export const Confirm = () => {

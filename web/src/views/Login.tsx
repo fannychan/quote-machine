@@ -1,8 +1,11 @@
 import { Auth } from "aws-amplify";
 import styled from "styled-components";
-import { StyledButton } from "../App";
-import { useState } from "react";
+import { StyledButton } from "../components/Button";
+import { useContext, useState } from "react";
 import { InputField } from "../components/InputField";
+import { AuthContext } from "../context/AuthContext";
+import { useHistory } from "react-router-dom";
+
 const Container = styled.div`
   margin: 100px auto;
   background: white;
@@ -16,6 +19,8 @@ const Container = styled.div`
 `;
 
 export const Login = () => {
+  let history = useHistory();
+  const { setLoggedIn } = useContext(AuthContext);
   const handeLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -29,6 +34,8 @@ export const Login = () => {
         "refresh_token",
         user.signInUserSession.refreshToken.token
       );
+      setLoggedIn(true);
+      history.replace("/");
     } catch (error) {
       setError(true);
       console.log("error signing in", error);
@@ -45,7 +52,7 @@ export const Login = () => {
   return (
     <>
       <Container>
-      <h1 style={{fontWeight: 200}}>Login to add your own quotes!</h1>
+        <h1 style={{ fontWeight: 200 }}>Login to add your own quotes!</h1>
         <form
           style={{
             display: "flex",
