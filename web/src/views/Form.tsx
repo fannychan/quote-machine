@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { gql, useMutation } from "@apollo/client";
 import { StyledButton } from "../App";
+import { InputField } from "../components/InputField";
 interface Quote {
   quote: string;
   author: string;
@@ -13,14 +14,6 @@ const Label = styled.label`
   text-align: left;
   margin-bottom: 10px;
 `;
-
-const Input = styled.input`
-  padding: 8px;
-  width: 100%;
-  border: none;
-  line-height: 18px;
-  border-radius: 2px;
-}`;
 
 const TextArea = styled.textarea`
   width: 100%;
@@ -58,15 +51,14 @@ export const Form = () => {
           setForm({ author: "", quote: "" });
         }}
       >
-        <Label style={{ display: "flex", textAlign: "left" }}>
-          Author
-          <Input
-            value={formState.author}
-            onChange={(event) =>
-              setForm({ ...formState, author: event.target.value })
-            }
-          />
-        </Label>
+        <InputField
+          label="Author"
+          value={formState.author}
+          onChange={(event) =>
+            setForm({ ...formState, author: event.target.value })
+          }
+        ></InputField>
+
         <Label>
           Quote
           <TextArea
