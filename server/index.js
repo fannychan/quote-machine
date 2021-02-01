@@ -1,9 +1,16 @@
 // const { ApolloServer, gql } = require("apollo-server-lambda");
 const { ApolloServer, gql, AuthenticationError } = require("apollo-server");
-var jwt = require("jsonwebtoken");
-const fs = require('fs');
+const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const jwksClient = require("jwks-rsa");
+require("dotenv").config();
 
-let rawdata = fs.readFileSync('data.json');
+const USER_POOL_ID = process.env.USER_POOL_ID || "";
+const client = jwksClient({
+  jwksUri: `https://cognito-idp.eu-west-1.amazonaws.com/${USER_POOL_ID}/.well-known/jwks.json`,
+});
+
+let rawdata = fs.readFileSync("data.json");
 let quotes = JSON.parse(rawdata);
 
 // Construct a schema, using GraphQL schema language
@@ -41,22 +48,37 @@ const resolvers = {
   },
   Mutation: {
     addQuote: async (_, { author, quote }, context) => {
-      console.log("Context", context)
-      if(!context.user.username) {
-        throw new AuthenticationError('you must be logged in');  
+      if (!context.user) {
+        throw new AuthenticationError("you must be logged in");
       }
-      console.log(author);
-      console.log(quote);
 
-      quotes = [
-        ...quotes,
-        { author, quote, submittedBy: context.user.username },
-      ];
-      return {
-        success: true,
-        message: "Quote added",
-        quotes,
-      };
+      try {
+        function getKey(header, callback) {
+          client.getSigningKey(header.kid, function (err, key) {
+            var signingKey = key.rsaPublicKey || key.publicKey;
+            callback(null, signingKey);
+          });
+        }
+
+        jwt.verify(context.token, getKey, function (err, decoded) {
+          if (err) {
+            throw new AuthenticationError("Could not complete");
+          }
+        });
+
+        quotes = [
+          ...quotes,
+          { author, quote, submittedBy: context.user.username },
+        ];
+        return {
+          success: true,
+          message: "Quote added",
+          quotes,
+        };
+      } catch (err) {
+        console.log(err);
+        throw new AuthenticationError("Could not complete");
+      }
     },
   },
 };
@@ -66,9 +88,9 @@ const server = new ApolloServer({
   resolvers,
   context: async ({ req }) => {
     const auth = (req.headers && req.headers.authorization) || "";
-    //TODO: Verify the token also
-    const decoded = jwt.decode(auth.substring(7));
-    return { user: { ...decoded } };
+    const token = auth.replace("Bearer ", "");
+    const user = jwt.decode(token);
+    return { user, token };
   },
 });
 
