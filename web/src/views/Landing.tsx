@@ -47,7 +47,7 @@ export const Landing = () => {
           </>
         )}
         <div>
-          <Button onClick={() => refetch()}>Get a new qoute</Button>
+          <Button onClick={() => refetch()}>new qoute</Button>
         </div>
       </Container>
     </>

@@ -1,20 +1,10 @@
 // const { ApolloServer, gql } = require("apollo-server-lambda");
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer, gql, AuthenticationError } = require("apollo-server");
 var jwt = require("jsonwebtoken");
+const fs = require('fs');
 
-let quotes = [
-  {
-    author: "Eleanor Roosevelt",
-    quote:
-      "If life were predictable it would cease to be life, and be without flavor.",
-    submittedBy: "Robot1",
-  },
-  {
-    author: "John Lennon",
-    quote: "Life is what happens when you're busy making other plans",
-    submittedBy: "Lisa",
-  },
-];
+let rawdata = fs.readFileSync('data.json');
+let quotes = JSON.parse(rawdata);
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
@@ -51,7 +41,10 @@ const resolvers = {
   },
   Mutation: {
     addQuote: async (_, { author, quote }, context) => {
-      console.log("Add qoute", context);
+      console.log("Context", context)
+      if(!context.user.username) {
+        throw new AuthenticationError('you must be logged in');  
+      }
       console.log(author);
       console.log(quote);
 
@@ -73,11 +66,8 @@ const server = new ApolloServer({
   resolvers,
   context: async ({ req }) => {
     const auth = (req.headers && req.headers.authorization) || "";
-    console.log(auth);
     //TODO: Verify the token also
-
     const decoded = jwt.decode(auth.substring(7));
-    console.log(decoded);
     return { user: { ...decoded } };
   },
 });

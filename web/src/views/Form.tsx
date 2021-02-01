@@ -26,12 +26,20 @@ const ADD_QOUTE = gql`
 export const Form = () => {
   const [addQuote, { data, error: mutationError }] = useMutation<{
     addQuote: Quote;
-  }>(ADD_QOUTE);
+  }>(ADD_QOUTE, {
+    onCompleted: (data) => {
+      if (data.addQuote) {
+        setForm({ author: "", quote: "" });
+      }
+    },
+    errorPolicy: "all",
+  });
 
   const [formState, setForm] = useState({
     author: "",
     quote: "",
   });
+
   return (
     <>
       <Header />
@@ -45,7 +53,6 @@ export const Form = () => {
             addQuote({
               variables: { quote: formState.quote, author: formState.author },
             });
-            setForm({ author: "", quote: "" });
           }}
         >
           <InputField
