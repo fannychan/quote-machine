@@ -7,6 +7,9 @@ export const AuthContext = React.createContext({
 
 export const Context: React.FC = ({ children }) => {
   const [userLoggedIn, isLoggedIn] = useState(false);
+
+
+  //TODO: User should be logged in after reload
   return (
     <AuthContext.Provider
       value={{ loggedIn: userLoggedIn, setLoggedIn: isLoggedIn }}

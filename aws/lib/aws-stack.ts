@@ -13,6 +13,10 @@ export class AwsStack extends cdk.Stack {
     // The code that defines your stack goes here
     const userPool = new UserPool(this, "userPool", {
       userPoolName: "quote-machine",
+      selfSignUpEnabled: true,
+      autoVerify: {
+        email: true
+      }
     });
 
     new UserPoolClient(this, "userPoolClient", {

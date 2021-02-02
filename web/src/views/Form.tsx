@@ -30,9 +30,15 @@ export const Form = () => {
     onCompleted: (data) => {
       if (data.addQuote) {
         setForm({ author: "", quote: "" });
+        setFeedback({ display: true, text: "Your quote has been added!" });
       }
     },
     errorPolicy: "all",
+  });
+
+  const [feedback, setFeedback] = useState({
+    display: false,
+    text: "",
   });
 
   const [formState, setForm] = useState({
@@ -73,9 +79,10 @@ export const Form = () => {
             />
           </StyledLabel>
           <Button style={{ marginTop: "15px" }} type="submit">
-            Add
+            Add quote
           </Button>
           {mutationError && <p>Error :( Please try again</p>}
+          {feedback.display && <p>{feedback.text}</p>}
         </form>
       </div>
     </>

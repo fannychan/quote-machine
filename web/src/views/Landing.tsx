@@ -41,7 +41,7 @@ export const Landing = () => {
           <>
             <p style={{ fontSize: "42px" }}>&#10078;</p>
             <h2>{data.random.quote}</h2>
-            <p>&#10077;</p>
+            <p style={{ fontSize: "42px" }}>&#10077;</p>
             <p>{data.random.author}</p>
             <p>{`Submitted by user ${data.random.submittedBy}`}</p>
           </>
