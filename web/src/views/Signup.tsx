@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-import { StyledButton } from "../components/Button";
+import { useHistory } from "react-router-dom";
+import { Button } from "../components/Button";
+import { Container } from "./Login";
+import { InputField } from "../components/InputField";
 
 export const Signup = () => {
+  let history = useHistory();
+
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -13,7 +18,9 @@ export const Signup = () => {
           email: formState.email, // optional
         },
       });
-      console.log(user);
+      if(user) {
+        history.replace({pathname: "/confirm", search: `?user=${user.getUsername()}` });
+      }
     } catch (error) {
       console.log("error signing up:", error);
     }
@@ -26,37 +33,37 @@ export const Signup = () => {
   });
 
   return (
-    <div>
+    <Container>
+      <h1 style={{ textAlign: "center", fontWeight: 300 }}>Sign up</h1>
       <form onSubmit={handleSignUp}>
-        <label>
-          Username
-          <input
-            value={formState.username}
-            onChange={(event) =>
-              setFormState({ ...formState, username: event.target.value })
-            }
-          />
-        </label>
-        <label>
-          Password
-          <input
-            value={formState.password}
-            onChange={(event) =>
-              setFormState({ ...formState, password: event.target.value })
-            }
-          />
-        </label>
-        <label>
-          Email
-          <input
-            value={formState.email}
-            onChange={(event) =>
-              setFormState({ ...formState, email: event.target.value })
-            }
-          />
-        </label>
-        <StyledButton type="submit">Add</StyledButton>
+        <InputField
+          label="username"
+          value={formState.username}
+          onChange={(event) =>
+            setFormState({ ...formState, username: event.target.value })
+          }
+        />
+        <InputField
+          label="Email"
+          value={formState.email}
+          onChange={(event) => {
+            setFormState({ ...formState, email: event.target.value });
+          }}
+        />
+        <InputField
+          label="Password"
+          type="password"
+          value={formState.password}
+          onChange={(event) =>
+            setFormState({ ...formState, password: event.target.value })
+          }
+        />
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+
+
+        <Button type="submit">Sign up</Button>
+        </div>
       </form>
-    </div>
+    </Container>
   );
 };

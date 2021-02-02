@@ -6,16 +6,22 @@ import { InputField } from "../components/InputField";
 import { AuthContext } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
 
-const Container = styled.div`
+export const Container = styled.div`
   margin: 100px auto;
   background: white;
   color: #372c30;
-  width: 476px;
-  padding: 50px 20px 77px;
-  border-radius: 7px;
+  width: 100%;
   background: white;
   color: #372c30;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 16px 33px;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  
+  @media (min-width: 768px) {
+    border-radius: 7px;
+    padding: 50px 40px 77px;
+    width: 476px;
+  }
 `;
 
 export const Login = () => {
@@ -57,7 +63,6 @@ export const Login = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            width: "400px",
             margin: "0 auto",
             justifyContent: "center",
           }}
@@ -69,7 +74,7 @@ export const Login = () => {
             onChange={(event) =>
               setFormState({ ...formState, username: event.target.value })
             }
-          ></InputField>
+          />
 
           <InputField
             label="Password"

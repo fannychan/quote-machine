@@ -8,9 +8,9 @@ export const StyledButton = styled.button<{ secondary?: boolean }>`
 }
 `;
 
-export const Button = styled.button`
-  background-color: #fff2e0;
-  font-size: large;
+export const Button = styled.button<{ outlined?: boolean, disabled?: boolean }>`
+  background-color: ${(props) => props.disabled ? '' : '#fff2e0'} ;
+  font-size: medium;
   border-radius: 6px;
   letter-spacing: 2.5px;
   text-transform: uppercase;
@@ -18,4 +18,9 @@ export const Button = styled.button`
   line-height: 40px;
   border: none;
   color: #633e0a;
+  cursor: pointer;
+
+  border: ${(props) => (props.outlined ? "1 px solid #fff2e0" : "")};
+  
+  
 `;

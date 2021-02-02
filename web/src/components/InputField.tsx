@@ -7,9 +7,13 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const StyledInput = styled.input`
-  padding: 8px 12px;
+  padding: 4px 8px;
   margin-top: 8px;
   margin-bottom: 14px;
+  padding: 1px 13px;
+  line-height: 40px;
+  border-radius: 4px;
+  border: 1px solid grey;
 `;
 
 export const StyledLabel = styled.label`
