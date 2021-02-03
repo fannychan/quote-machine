@@ -1,7 +1,7 @@
 import { Auth } from "aws-amplify";
 import { Button } from "../components/Button";
 import { InputField } from "../components/InputField";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container } from "./Login";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";

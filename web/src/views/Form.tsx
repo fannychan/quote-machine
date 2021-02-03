@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { gql, useMutation } from "@apollo/client";
 import { Button } from "../components/Button";
 import { InputField, StyledLabel } from "../components/InputField";
 import { Header } from "../components/Header";
+import { AuthContext } from "../context/AuthContext";
 interface Quote {
   quote: string;
   author: string;
@@ -24,7 +25,7 @@ const ADD_QOUTE = gql`
 `;
 
 export const Form = () => {
-  const [addQuote, { data, error: mutationError }] = useMutation<{
+  const [addQuote, { error: mutationError }] = useMutation<{
     addQuote: Quote;
   }>(ADD_QOUTE, {
     onCompleted: (data) => {
