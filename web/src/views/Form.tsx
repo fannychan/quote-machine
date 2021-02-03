@@ -15,8 +15,8 @@ const TextArea = styled.textarea`
   margin-top: 6px;
 `;
 
-const ADD_QOUTE = gql`
-  mutation AddQoute($author: String!, $quote: String!) {
+export const ADD_QUOTE = gql`
+  mutation AddQuote($author: String!, $quote: String!) {
     addQuote(author: $author, quote: $quote) {
       quote
       author
@@ -27,7 +27,7 @@ const ADD_QOUTE = gql`
 export const Form = () => {
   const [addQuote, { error: mutationError }] = useMutation<{
     addQuote: Quote;
-  }>(ADD_QOUTE, {
+  }>(ADD_QUOTE, {
     onCompleted: (data) => {
       if (data.addQuote) {
         setForm({ author: "", quote: "" });
@@ -63,6 +63,7 @@ export const Form = () => {
           }}
         >
           <InputField
+            aria-label="author"
             label="Author"
             value={formState.author}
             onChange={(event) =>
@@ -73,6 +74,7 @@ export const Form = () => {
           <StyledLabel>
             Quote
             <TextArea
+              aria-label="quote"
               value={formState.quote}
               onChange={(event) =>
                 setForm({ ...formState, quote: event.target.value })
