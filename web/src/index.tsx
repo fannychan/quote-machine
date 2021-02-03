@@ -5,7 +5,10 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./client";
-import { AuthContext, Context } from "./context/AuthContext";
+import { Context } from "./context/AuthContext";
+import { configure } from "./auth/config";
+
+configure();
 
 ReactDOM.render(
   <React.StrictMode>

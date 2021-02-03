@@ -7,7 +7,7 @@ require("dotenv").config();
 
 const USER_POOL_ID = process.env.USER_POOL_ID || "";
 const client = jwksClient({
-  jwksUri: `https://cognito-idp.eu-west-1.amazonaws.com/${USER_POOL_ID}/.well-known/jwks.json`,
+  jwksUri: `https://cognito-idp.eu-north-1.amazonaws.com/${USER_POOL_ID}/.well-known/jwks.json`,
 });
 
 let rawdata = fs.readFileSync("data.json");
@@ -52,6 +52,10 @@ const resolvers = {
         throw new AuthenticationError("you must be logged in");
       }
 
+      if(context.user.exp && Date.now() >= context.user.exp * 1000 ) {
+        throw new AuthenticationError('Token has expired');
+      }
+
       try {
         function getKey(header, callback) {
           client.getSigningKey(header.kid, function (err, key) {
@@ -62,6 +66,7 @@ const resolvers = {
 
         jwt.verify(context.token, getKey, function (err, decoded) {
           if (err) {
+            console.log(err)
             throw new AuthenticationError("Could not complete");
           }
         });

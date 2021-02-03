@@ -10,9 +10,11 @@ const Container = styled.div`
 `;
 
 interface Quote {
-  author: string;
-  quote: string;
-  submittedBy: string;
+  random: {
+    author: string;
+    quote: string;
+    submittedBy: string;
+  };
 }
 
 export const Landing = () => {
@@ -26,8 +28,7 @@ export const Landing = () => {
     }
   `;
 
-
-  const { loading, error, data, refetch } = useQuery(GET_RANDOM_QUOTE, {
+  const { loading, error, data, refetch } = useQuery<Quote>(GET_RANDOM_QUOTE, {
     fetchPolicy: "no-cache",
   });
 
@@ -46,6 +47,7 @@ export const Landing = () => {
             <p>{`Submitted by user ${data.random.submittedBy}`}</p>
           </>
         )}
+        {error && <p>We couldn't get you a quote this time! Try again later</p>}
         <div>
           <Button onClick={() => refetch()}>new qoute</Button>
         </div>
