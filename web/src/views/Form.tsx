@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { gql, useMutation } from "@apollo/client";
 import { Button } from "../components/Button";
