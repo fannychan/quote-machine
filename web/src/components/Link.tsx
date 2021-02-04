@@ -8,12 +8,12 @@ export const StyledLink = styled(Link)`
   letter-spacing: 2.5px;
   text-transform: uppercase;
   margin-top: 15px;
-  line-height: 40px;
   color: #633e0a;
   margin-left: 10px;
   text-decoration: none;
-  padding: 2px 8px;
+  padding: 16px;
   border:  none;
+  box-sizing: border-box;
 `;
 
 export const OutlinedLink = styled(StyledLink)`

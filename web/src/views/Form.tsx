@@ -4,7 +4,6 @@ import { gql, useMutation } from "@apollo/client";
 import { Button } from "../components/Button";
 import { InputField, StyledLabel } from "../components/InputField";
 import { Header } from "../components/Header";
-import { AuthContext } from "../context/AuthContext";
 interface Quote {
   quote: string;
   author: string;
@@ -42,10 +41,13 @@ export const Form = () => {
     text: "",
   });
 
+  
   const [formState, setForm] = useState({
     author: "",
     quote: "",
   });
+
+  const isDiabled = formState.author === '' || formState.quote === '';
 
   return (
     <>
@@ -81,7 +83,7 @@ export const Form = () => {
               }
             />
           </StyledLabel>
-          <Button style={{ marginTop: "15px" }} type="submit">
+          <Button disabled={isDiabled} style={{ marginTop: "15px" }} type="submit">
             Add quote
           </Button>
           {mutationError && <p>Error :( Please try again</p>}
