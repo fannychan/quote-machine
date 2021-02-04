@@ -4,7 +4,6 @@ import { gql, useMutation } from "@apollo/client";
 import { Button } from "../components/Button";
 import { InputField, StyledLabel } from "../components/InputField";
 import { Header } from "../components/Header";
-import { AuthContext } from "../context/AuthContext";
 interface Quote {
   quote: string;
   author: string;
@@ -15,8 +14,8 @@ const TextArea = styled.textarea`
   margin-top: 6px;
 `;
 
-const ADD_QOUTE = gql`
-  mutation AddQoute($author: String!, $quote: String!) {
+export const ADD_QUOTE = gql`
+  mutation AddQuote($author: String!, $quote: String!) {
     addQuote(author: $author, quote: $quote) {
       quote
       author
@@ -27,7 +26,7 @@ const ADD_QOUTE = gql`
 export const Form = () => {
   const [addQuote, { error: mutationError }] = useMutation<{
     addQuote: Quote;
-  }>(ADD_QOUTE, {
+  }>(ADD_QUOTE, {
     onCompleted: (data) => {
       if (data.addQuote) {
         setForm({ author: "", quote: "" });
@@ -42,10 +41,13 @@ export const Form = () => {
     text: "",
   });
 
+  
   const [formState, setForm] = useState({
     author: "",
     quote: "",
   });
+
+  const isDiabled = formState.author === '' || formState.quote === '';
 
   return (
     <>
@@ -63,6 +65,7 @@ export const Form = () => {
           }}
         >
           <InputField
+            aria-label="author"
             label="Author"
             value={formState.author}
             onChange={(event) =>
@@ -73,13 +76,14 @@ export const Form = () => {
           <StyledLabel>
             Quote
             <TextArea
+              aria-label="quote"
               value={formState.quote}
               onChange={(event) =>
                 setForm({ ...formState, quote: event.target.value })
               }
             />
           </StyledLabel>
-          <Button style={{ marginTop: "15px" }} type="submit">
+          <Button disabled={isDiabled} style={{ marginTop: "15px" }} type="submit">
             Add quote
           </Button>
           {mutationError && <p>Error :( Please try again</p>}

@@ -20,19 +20,6 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-client
-  .query({
-    query: gql`
-      query GetQoutes {
-        quotes {
-          author
-          quote
-        }
-      }
-    `,
-  })
-  .then((result) => console.log(result));
-
 
 
 

@@ -15,10 +15,10 @@ export const Button = styled.button<{ outlined?: boolean, disabled?: boolean }>`
   letter-spacing: 2.5px;
   text-transform: uppercase;
   margin-top: 15px;
-  line-height: 40px;
   border: none;
   color: #633e0a;
   cursor: pointer;
+  padding: 16px;
 
   border: ${(props) => (props.outlined ? "1 px solid #fff2e0" : "")};
   
