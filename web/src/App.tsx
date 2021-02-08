@@ -5,6 +5,7 @@ import { Landing } from "./views/Landing";
 import { Form } from "./views/Form";
 import { Signup } from "./views/Signup";
 import { Confirm } from "./views/Confirm";
+import { UserQuotes } from "./views/UserQuotes";
 
 const App = () => {
   return (
@@ -21,6 +22,9 @@ const App = () => {
         </Route>
         <Route path="/confirm">
           <Confirm />
+        </Route>
+        <Route path="/quotes/:user">
+          <UserQuotes />
         </Route>
         <Route path="/">
           <Landing />

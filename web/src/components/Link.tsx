@@ -19,5 +19,6 @@ export const StyledLink = styled(Link)`
 export const OutlinedLink = styled(StyledLink)`
   color: #fff2e0;
   border: 2px solid #fff2e0;
+  padding: 16px;
   background-color: transparent;
 `;
