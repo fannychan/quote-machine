@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { UserCircle } from "@styled-icons/boxicons-solid/UserCircle";
 
-const StyledCard = styled.div`
+const StyledCard = styled.li`
   display: flex;
   background-color: white;
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 16px 33px;
+  color: black;
 `;
 
 interface Props {
@@ -28,7 +29,7 @@ export const Card = ({ submittedBy, author, quote }: Props) => {
           display: "flex",
           alignItems: "center",
           borderBottom: "1px solid #e2e2e2",
-          padding: "20px",
+          padding: "15px",
         }}
       >
         <UserCircle
@@ -37,12 +38,9 @@ export const Card = ({ submittedBy, author, quote }: Props) => {
         />
         <p style={{ margin: 0 }}>{`${submittedBy}`}</p>
       </span>
-      <div style={{ display: "flex", padding: "30px" }}>
-        <div style={{ padding: "20px", width: "100%" }}>
-          <h3>{author}</h3>
-
-          <h2 style={{ fontWeight: 300 }}>{quote}</h2>
-        </div>
+      <div style={{ padding: "15px 30px" }}>
+        <p style={{ fontWeight: 400, marginBottom: '25px' }}>{quote}</p>
+        <p>{author}</p>
       </div>
     </StyledCard>
   );

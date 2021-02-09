@@ -1,8 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { Header } from "../components/Header";
-import { UserCircle } from "@styled-icons/boxicons-solid/UserCircle";
-import { ListItem } from "../components/ListItem";
 import { Card } from "../components/Card";
 import { Quote } from "../models/Model";
 
@@ -32,34 +30,35 @@ export const UserQuotes = () => {
   );
 
   return (
-    <div style={{ backgroundColor: "#F4F5F7" }}>
+    <div>
       <Header />
-      <div style={{ margin: "0 auto", display: "flex", maxWidth: "764px" }}>
-        <div style={{ padding: "10px", textAlign: "center" }}>
-          <UserCircle height="50px" />
-          <p>{user}</p>
-        </div>
-        <ul style={{ padding: "10px 20px", listStyleType: "none", margin: 0 }}>
-          {data && data.quote.length > 0 ? (
-            data?.quote.map((q) => {
-              return <ListItem text={q.quote} author={q.author}></ListItem>;
-            })
-          ) : (
-            <p>No quotes could be found for this user</p>
-          )}
-        </ul>
-      </div>
-      <div>
+      <h1 style={{ margin: "0 auto", maxWidth: "890px" }}>{user}'s quotes</h1>
+      <ul
+        style={{
+          padding: "10px 20px",
+          listStyleType: "none",
+          margin: "0 auto",
+          maxWidth: "890px",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "10px",
+        }}
+      >
         {user && data && data.quote.length > 0 ? (
           data?.quote.map((q) => {
             return (
-              <Card submittedBy={user} quote={q.quote} author={q.author}></Card>
+              <Card
+                key={q.author}
+                submittedBy={user}
+                quote={q.quote}
+                author={q.author}
+              ></Card>
             );
           })
         ) : (
           <p>No quotes could be found for this user</p>
         )}
-      </div>
+      </ul>
     </div>
   );
 };
