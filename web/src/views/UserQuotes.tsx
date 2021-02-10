@@ -20,7 +20,7 @@ export const GET_QUOTE_BY_SUBMITTER = gql`
 export const UserQuotes = () => {
   const { user } = useParams<Record<string, string | undefined>>();
 
-  const { loading, error, data, refetch } = useQuery<QUOTE_BY_SUBMITTER>(
+  const { data } = useQuery<QUOTE_BY_SUBMITTER>(
     GET_QUOTE_BY_SUBMITTER,
     {
       variables: { submittedBy: user },
