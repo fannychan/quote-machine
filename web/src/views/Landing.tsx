@@ -1,20 +1,17 @@
 import styled from "styled-components";
 import { gql, useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
 import { UserCircle } from "@styled-icons/boxicons-solid/UserCircle";
 import { Button } from "../components/Button";
 import { Header } from "../components/Header";
-
+import { Quote } from "../models/Model";
 const Container = styled.div`
   margin: 100px auto;
   width: 600px;
 `;
 
-interface Quote {
-  random: {
-    author: string;
-    quote: string;
-    submittedBy: string;
-  };
+interface RandomQuote {
+  random: Quote;
 }
 
 export const GET_RANDOM_QUOTE = gql`
@@ -28,10 +25,13 @@ export const GET_RANDOM_QUOTE = gql`
 `;
 
 export const Landing = () => {
-  const { loading, error, data, refetch } = useQuery<Quote>(GET_RANDOM_QUOTE, {
-    fetchPolicy: "no-cache",
-    errorPolicy: "all",
-  });
+  const { loading, error, data, refetch } = useQuery<RandomQuote>(
+    GET_RANDOM_QUOTE,
+    {
+      fetchPolicy: "no-cache",
+      errorPolicy: "all",
+    }
+  );
 
   return (
     <>
@@ -61,7 +61,7 @@ export const Landing = () => {
 
               <span
                 style={{
-                  marginTop: "50px",
+                  width: "30%",
                   display: "flex",
                   alignItems: "center",
                 }}
@@ -81,8 +81,24 @@ export const Landing = () => {
           <h2>We couldn't get you a quote this time! Try again later</h2>
         )}
         <div style={{ textAlign: "center" }}>
-          <Button onClick={() => refetch()}>new qoute</Button>
+          <Button onClick={() => refetch()}>new quote</Button>
         </div>
+
+        {data && data.random && (
+          <div
+            style={{
+              backgroundColor: "#d2d2d263",
+              padding: "20px",
+              borderRadius: "4px",
+              marginTop: "45px",
+            }}
+          >
+            <h3>Did you like this quote?</h3>
+            <Link to={`/quotes/${data.random.submittedBy}`}>
+              See all quotes submitted by {data.random.submittedBy}
+            </Link>
+          </div>
+        )}
       </Container>
     </>
   );

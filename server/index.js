@@ -18,7 +18,7 @@ const typeDefs = gql`
   type Query {
     hello: String
     quotes: [Quote]
-    quote(author: String!): Quote
+    quote(submittedBy: String!): [Quote]
     random: Quote
   }
   type Quote {
@@ -38,7 +38,7 @@ const resolvers = {
     hello: () => "Hello world!",
     quotes: () => quotes,
     quote: (context, args) => {
-      return quotes.find((q) => q.author === args.author);
+      return quotes.filter((q) => q.submittedBy.toLowerCase() === args.submittedBy.toLowerCase());
     },
     random: (_, args, context) => {
       const index = Math.floor(Math.random() * Math.floor(quotes.length));

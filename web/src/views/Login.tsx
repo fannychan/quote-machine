@@ -1,6 +1,6 @@
 import { Auth } from "aws-amplify";
 import styled from "styled-components";
-import { StyledButton } from "../components/Button";
+import { Button } from "../components/Button";
 import { useContext, useState } from "react";
 import { InputField } from "../components/InputField";
 import { AuthContext } from "../context/AuthContext";
@@ -58,7 +58,7 @@ export const Login = () => {
   return (
     <>
       <Container>
-        <h1 style={{ fontWeight: 200 }}>Login to add your own quotes!</h1>
+        <h1 style={{ fontWeight: 300, textAlign: 'center' }}>Quote Machine</h1>
         <form
           style={{
             display: "flex",
@@ -90,7 +90,7 @@ export const Login = () => {
               Username or password was incorrect. Not letting you in, sorry.
             </p>
           )}
-          <StyledButton type="submit">Login</StyledButton>
+          <Button type="submit">Login</Button>
         </form>
       </Container>
     </>

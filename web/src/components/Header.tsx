@@ -2,20 +2,13 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { OutlinedLink } from "../components/Link";
-const StyledLink = styled(Link)<{ outlined?: boolean }>`
-  background-color: ${(props) => (props.outlined ? "" : "#fff2e0")};
-  font-size: medium;
-  border-radius: 6px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  margin-top: 15px;
-  line-height: 40px;
-  color: ${(props) => (props.outlined ? "#fff2e0" : "#633e0a")};
-  margin-left: 10px;
+import { OutlinedLink, StyledLink } from "../components/Link";
+
+const HomeLink = styled(Link)`
   text-decoration: none;
-  padding: 2px 8px;
-  border: ${(props) => (props.outlined ? "2px solid #fff2e0" : "none")};
+  color: #fff2e0;
+  font-family: 'Dosis', sans-serif;
+  font-size: 42px;
 `;
 
 export const Header = () => {
@@ -24,21 +17,26 @@ export const Header = () => {
     <div
       style={{
         display: "flex",
-        justifyContent: "flex-end",
-        margin: "10px 10px",
+        justifyContent: "space-between",
+        margin: "15px 30px 30px",
+        alignItems: 'center',
       }}
     >
-      {loggedIn ? (
-        <>
-          <StyledLink to="/form">Add new quote</StyledLink>
-          <OutlinedLink to="/login">Logout</OutlinedLink>
-        </>
-      ) : (
-        <>
-          <OutlinedLink to="/signup">Sign up</OutlinedLink>
-          <StyledLink to="/login">Login</StyledLink>
-        </>
-      )}
+      <HomeLink to="/">QM</HomeLink>
+
+      <div>
+        {loggedIn ? (
+          <>
+            <StyledLink to="/form">Add new quote</StyledLink>
+            <OutlinedLink to="/login">Logout</OutlinedLink>
+          </>
+        ) : (
+          <>
+            <OutlinedLink to="/signup">Sign up</OutlinedLink>
+            <StyledLink to="/login">Login</StyledLink>
+          </>
+        )}
+      </div>
     </div>
   );
 };

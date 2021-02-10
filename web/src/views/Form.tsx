@@ -4,7 +4,7 @@ import { gql, useMutation } from "@apollo/client";
 import { Button } from "../components/Button";
 import { InputField, StyledLabel } from "../components/InputField";
 import { Header } from "../components/Header";
-interface Quote {
+export interface Quote {
   quote: string;
   author: string;
 }
