@@ -22,3 +22,8 @@ export const OutlinedLink = styled(StyledLink)`
   padding: 16px;
   background-color: transparent;
 `;
+
+export const TextLink = styled(Link)`
+  text-decoration: none;
+  color: #fff2e0;
+`

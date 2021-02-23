@@ -3,7 +3,30 @@ const { ApolloServer, gql, AuthenticationError } = require("apollo-server");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const jwksClient = require("jwks-rsa");
+const fetch = require('node-fetch');
+const unsplash = require("unsplash-js");
 require("dotenv").config();
+global.fetch = fetch;
+
+const unsplashClient = unsplash.createApi({
+  accessKey: process.env.UNSPLASH_ACCESS_KEY,
+});
+
+const getBackgroundPhoto = () => {
+  return unsplashClient.photos
+    .getRandom({
+      query: "nature",
+      
+      orientation: "landscape",
+    })
+    .then((result) => {
+      if (result.errors) {
+        console.log("error", result.errors[0]);
+      } else {
+        return result.response;
+      }
+    });
+};
 
 const USER_POOL_ID = process.env.USER_POOL_ID || "";
 const client = jwksClient({
@@ -16,16 +39,40 @@ let quotes = JSON.parse(rawdata);
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
   type Query {
-    hello: String
     quotes: [Quote]
     quote(submittedBy: String!): [Quote]
     random: Quote
+    background: BackgroundPhoto
   }
+
   type Quote {
     author: String
     quote: String
     submittedBy: String
   }
+
+  type BackgroundPhoto {
+    id: String
+    urls: Urls
+    user: User
+    links: Links
+  }
+
+  type Urls {
+    raw: String
+    full: String
+    regular: String
+  }
+
+  type Links {
+    download: String
+  }
+
+  type User {
+    username: String
+    name: String
+  }
+
 
   type Mutation {
     addQuote(quote: String, author: String, submittedBy: String): Quote
@@ -35,15 +82,21 @@ const typeDefs = gql`
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    hello: () => "Hello world!",
     quotes: () => quotes,
     quote: (context, args) => {
-      return quotes.filter((q) => q.submittedBy.toLowerCase() === args.submittedBy.toLowerCase());
+      return quotes.filter(
+        (q) => q.submittedBy.toLowerCase() === args.submittedBy.toLowerCase()
+      );
     },
     random: (_, args, context) => {
       const index = Math.floor(Math.random() * Math.floor(quotes.length));
 
       return quotes[index];
+    },
+    background: async () => {
+      const photo = await getBackgroundPhoto();
+      console.log(photo);
+      return photo;
     },
   },
   Mutation: {
@@ -52,8 +105,8 @@ const resolvers = {
         throw new AuthenticationError("you must be logged in");
       }
 
-      if(context.user.exp && Date.now() >= context.user.exp * 1000 ) {
-        throw new AuthenticationError('Token has expired');
+      if (context.user.exp && Date.now() >= context.user.exp * 1000) {
+        throw new AuthenticationError("Token has expired");
       }
 
       try {
@@ -66,7 +119,7 @@ const resolvers = {
 
         jwt.verify(context.token, getKey, function (err, decoded) {
           if (err) {
-            console.log(err)
+            console.log(err);
             throw new AuthenticationError("Could not complete");
           }
         });

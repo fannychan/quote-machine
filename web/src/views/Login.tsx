@@ -1,6 +1,7 @@
 import { Auth } from "aws-amplify";
 import styled from "styled-components";
 import { Button } from "../components/Button";
+import { Header } from "../components/Header";
 import { useContext, useState } from "react";
 import { InputField } from "../components/InputField";
 import { AuthContext } from "../context/AuthContext";
@@ -16,7 +17,7 @@ export const Container = styled.div`
   box-shadow: rgba(0, 0, 0, 0.2) 0px 16px 33px;
   padding: 20px 10px;
   box-sizing: border-box;
-  
+
   @media (min-width: 768px) {
     border-radius: 7px;
     padding: 50px 40px 77px;
@@ -57,8 +58,9 @@ export const Login = () => {
 
   return (
     <>
+      <Header fullHeader={false} />
       <Container>
-        <h1 style={{ fontWeight: 300, textAlign: 'center' }}>Quote Machine</h1>
+        <h1 style={{ fontWeight: 300, textAlign: "center" }}>Quote Machine</h1>
         <form
           style={{
             display: "flex",
